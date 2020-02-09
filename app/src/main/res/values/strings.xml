@@ -2,10 +2,13 @@
     <string name="app_name">EEG Screen</string>
 
     <string name="main_title">Epilepsy Screening</string>
-    <string name="connect_bluetooth">Connect to Device</string>
+    <string name="presentation">Presentation</string>
     <string name="post_record">Post Record Visualization</string>
     <string name="impedance_check">Impedance Check</string>
     <string name="live_presentation">Presentation</string>
+
+    <string name="bt_option">Connect</string>
+    <string name="bt_option_disconnect">Disconnect</string>
 
 
     <string name="action_settings">Settings</string>
