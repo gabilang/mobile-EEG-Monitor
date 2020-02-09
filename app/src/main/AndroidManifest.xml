@@ -16,9 +16,12 @@
         android:theme="@style/AppTheme">
         <activity android:name=".PostDataVisualization"></activity>
         <activity android:name=".RealtimePlottingActivity" />
-        <activity android:name=".ElectrodeSelection" />
+        <activity android:name=".ElectrodeSelection"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name="com.eeg.bluetoothserial.DeviceList" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

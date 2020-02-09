@@ -3,6 +3,7 @@ package com.eeg.eegscreen;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView textStatus;
 
-    private final static String TAG = MainActivity.class.getSimpleName();
+    private String deviceName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         final Button button1 = findViewById(R.id.button1);
         Button button2 = findViewById(R.id.button2);
 
-        textStatus = (TextView)findViewById(R.id.connectionStatus);
+        textStatus = findViewById(R.id.connectionStatus);
 
         bt = new BluetoothSPP(this);
 
@@ -62,19 +63,24 @@ public class MainActivity extends AppCompatActivity {
         });
 
         bt.setBluetoothConnectionListener(new BluetoothSPP.BluetoothConnectionListener() {
+            @SuppressLint("SetTextI18n")
             public void onDeviceDisconnected() {
                 textStatus.setText("Status : Not connect");
                 menu.clear();
                 getMenuInflater().inflate(R.menu.bt_menu, menu);
                 button1.setEnabled(false);
+                deviceName = "None";
             }
 
+            @SuppressLint("SetTextI18n")
             public void onDeviceConnectionFailed() {
                 textStatus.setText("Status : Connection failed");
                 button1.setEnabled(false);
             }
 
+            @SuppressLint("SetTextI18n")
             public void onDeviceConnected(String name, String address) {
+                deviceName = name;
                 textStatus.setText("Status : Connected to " + name);
                 menu.clear();
                 getMenuInflater().inflate(R.menu.bt_menu_disconnect, menu);
@@ -144,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openPresentation() {
         Intent presentationIntent = new Intent(this, ElectrodeSelection.class);
+        presentationIntent.putExtra("DEVICE_NAME", deviceName);
         startActivity(presentationIntent);
     }
 

@@ -53,7 +53,7 @@ public class DeviceList extends AppCompatActivity {
         setResult(Activity.RESULT_CANCELED);
 
         // Initialize the button to perform device discovery
-        scanButton = (Button) findViewById(R.id.button_scan);
+        scanButton = findViewById(R.id.button_scan);
         String strScanDevice = getIntent().getStringExtra("scan_for_devices");
         if(strScanDevice == null)
             strScanDevice = "SCAN FOR DEVICES";
@@ -70,7 +70,7 @@ public class DeviceList extends AppCompatActivity {
         mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, layout_text);
 
         // Find and set up the ListView for paired devices
-        ListView pairedListView = (ListView) findViewById(R.id.list_devices);
+        ListView pairedListView = findViewById(R.id.list_devices);
         pairedListView.setAdapter(mPairedDevicesArrayAdapter);
         pairedListView.setOnItemClickListener(mDeviceClickListener);
 
@@ -138,8 +138,7 @@ public class DeviceList extends AppCompatActivity {
         setTitle(strScanning);
 
         // Turn on sub-title for new devices
-        // findViewById(R.id.title_new_devices).setVisibility(View.VISIBLE);
-        // If we're already discovering, stop it
+        // If we are already discovering, stop it
         if (mBtAdapter.isDiscovering()) {
             mBtAdapter.cancelDiscovery();
         }
