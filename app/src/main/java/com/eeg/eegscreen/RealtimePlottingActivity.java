@@ -1,13 +1,25 @@
 package com.eeg.eegscreen;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eeg.bluetoothserial.BluetoothSPP;
+import com.eeg.bluetoothserial.BluetoothState;
+import com.eeg.bluetoothserial.DeviceList;
 import com.eeg.datahandler.ConvertData;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -21,14 +33,22 @@ import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class RealtimePlottingActivity extends AppCompatActivity implements OnChartGestureListener,
         OnChartValueSelectedListener {
 
     BluetoothSPP bt;
+
+    Menu menu;
+
+    TextView textStatus;
 
     private final static String TAG = RealtimePlottingActivity.class.getSimpleName();
 
@@ -62,6 +82,16 @@ public class RealtimePlottingActivity extends AppCompatActivity implements OnCha
     private boolean show_ch7 = true;
     private boolean show_ch8 = true;
 
+    // File Name for each presentations
+    private String mFileNamePrefix = "eeg";
+    private String mFileExtension = ".csv"; // have to change it as ".edf"
+    private String mFileNameSuffix = "";
+    private String defaultFileName = "eegTest1.txt";
+
+    private Intent openTextFileIntent = new Intent(Intent.ACTION_VIEW);
+    private File directory = new File(
+            Environment.getExternalStorageDirectory(), "EEGFolder");
+
     private float resolution_time;
     private float sampling_freq;
     private int count = 0;
@@ -77,6 +107,8 @@ public class RealtimePlottingActivity extends AppCompatActivity implements OnCha
     private final List<List<Float>> accumulated = new ArrayList<>();
     private final List<Float> dp_received = new ArrayList<>();
 
+    private boolean plotStart = false;
+
     private Thread thread;
 
     @Override
@@ -88,11 +120,23 @@ public class RealtimePlottingActivity extends AppCompatActivity implements OnCha
 
         bt = new BluetoothSPP(this);
 
-        bt.setOnDataReceivedListener(new BluetoothSPP.OnDataReceivedListener() {
-            @Override
-            public void onDataReceived(byte[] data, String message) {
-                data_count++;
-                System.out.println(message);
+        textStatus = findViewById(R.id.connectionStatus);
+
+        if(!bt.isBluetoothAvailable()) {
+            Toast.makeText(getApplicationContext()
+                    , "Bluetooth is not available"
+                    , Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+
+        bt.setOnDataReceivedListener((data, message) -> {
+            data_count++;
+            System.out.println(data_count);
+            System.out.println(data);
+            if(plotStart) {
+                menu.clear();
+                getMenuInflater().inflate(R.menu.plot_stop, menu);
                 List<Float> microV = extractChannelData(data);
                 if (accumulated.size() < 11) {
                     if (microV.size() == 8) {
@@ -103,8 +147,33 @@ public class RealtimePlottingActivity extends AppCompatActivity implements OnCha
                     addDataEntries(accumulated);
                     accumulated.clear();
                 }
+//            new SaveData().execute(microV);
             }
         });
+
+        bt.setBluetoothConnectionListener(new BluetoothSPP.BluetoothConnectionListener() {
+            @SuppressLint("SetTextI18n")
+            public void onDeviceDisconnected() {
+                textStatus.setText("Status : Not connect");
+//                button1.setEnabled(false);
+            }
+
+            @SuppressLint("SetTextI18n")
+            public void onDeviceConnectionFailed() {
+                textStatus.setText("Status : Connection failed");
+//                button1.setEnabled(false);
+            }
+
+            @SuppressLint("SetTextI18n")
+            public void onDeviceConnected(String name, String address) {
+                textStatus.setText("Status : Connected to " + name);
+                menu.clear();
+                getMenuInflater().inflate(R.menu.bt_menu_disconnect, menu);
+//                button1.setEnabled(true);
+            }
+        });
+
+
 
         m1Chart = findViewById(R.id.channel1);
         m2Chart = findViewById(R.id.channel2);
@@ -124,8 +193,6 @@ public class RealtimePlottingActivity extends AppCompatActivity implements OnCha
         setM7Chart();
         setM8Chart();
     }
-
-
 
     private List<Float> extractChannelData(byte[] data) {
 
@@ -157,6 +224,83 @@ public class RealtimePlottingActivity extends AppCompatActivity implements OnCha
         return channelData;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        bt.stopService();
+        System.out.println("service destroyed");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Get filename for each session
+        defaultFileName = getFileNameForSession();
+
+        if (!bt.isBluetoothEnabled()) {
+            Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(intent, BluetoothState.REQUEST_ENABLE_BT);
+        } else {
+            if(!bt.isServiceAvailable()) {
+                bt.setupService();
+                bt.startService(BluetoothState.DEVICE_ANDROID);
+            }
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println(data);
+        if (requestCode == BluetoothState.REQUEST_CONNECT_DEVICE) {
+            if (resultCode == Activity.RESULT_OK)
+                bt.connect(data);
+        } else if (requestCode == BluetoothState.REQUEST_ENABLE_BT) {
+            if (resultCode == Activity.RESULT_OK) {
+                bt.setupService();
+                bt.startService(BluetoothState.DEVICE_ANDROID);
+            } else {
+                Toast.makeText(getApplicationContext()
+                        , "Bluetooth was not enabled."
+                        , Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.bt_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.bt_connect) {
+            bt.setDeviceTarget(BluetoothState.DEVICE_OTHER);
+            Intent intent = new Intent(getApplicationContext(), DeviceList.class);
+            startActivityForResult(intent, BluetoothState.REQUEST_CONNECT_DEVICE);
+
+        } else if(id == R.id.bt_disconnect){
+            if(bt.getServiceState() == BluetoothState.STATE_CONNECTED) {
+                bt.disconnect();
+                menu.clear();
+                getMenuInflater().inflate(R.menu.bt_menu, menu);
+            }
+        } else if(id == R.id.plot_start){
+            bt.send("B", true);
+            plotStart = true;
+            menu.clear();
+            getMenuInflater().inflate(R.menu.plot_stop, menu);
+        } else if(id == R.id.plot_stop){
+            bt.send("A", true);
+            plotStart = false;
+            menu.clear();
+            getMenuInflater().inflate(R.menu.bt_menu_disconnect, menu);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void setM1Chart(){
         OnChartValueSelectedListener m1OL = new OnChartValueSelectedListener() {
@@ -717,9 +861,6 @@ public class RealtimePlottingActivity extends AppCompatActivity implements OnCha
                 for (int i = 0; i < m4Chart.getData().getDataSetCount(); i++) {
                     m4Chart.getData().getDataSetByIndex(i).removeFirst();
                 }
-                for (int i = 0; i < m1Chart.getData().getDataSetCount(); i++) {
-                    m1Chart.getData().getDataSetByIndex(i).removeFirst();
-                }
                 for (int i = 0; i < m5Chart.getData().getDataSetCount(); i++) {
                     m5Chart.getData().getDataSetByIndex(i).removeFirst();
                 }
@@ -736,6 +877,16 @@ public class RealtimePlottingActivity extends AppCompatActivity implements OnCha
 
 
         }
+    }
+
+    // Get filename for current session
+    private String getFileNameForSession() {
+        directory.mkdir();
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.getDefault());
+        Date now = new Date();
+        mFileNameSuffix = dateFormatter.format(now);
+        String fileName = mFileNamePrefix + mFileNameSuffix + mFileExtension;
+        return fileName;
     }
 
 

@@ -4,13 +4,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Property;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.eeg.bluetoothserial.BluetoothSPP;
+
 public class ElectrodeSelection extends AppCompatActivity {
 
     TextView textStatus;
+
+    TextView ch1, ch2, ch3, ch4, ch5, ch6, ch7, ch8;
+
+    private int count = 0;
 
     private boolean fp1_selected = false;
     private boolean isFp2_selected = false;
@@ -41,6 +48,8 @@ public class ElectrodeSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_electrode_selection);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Bundle bundle = getIntent().getExtras();
 
         textStatus = findViewById(R.id.connectionStatus);
@@ -54,9 +63,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(fp1_selected){
                     fp1.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     fp1_selected = false;
+                    count--;
                 } else {
                     fp1.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     fp1_selected = true;
+                    count++;
                 }
             }
         });
@@ -69,9 +80,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isFp2_selected){
                     fp2.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isFp2_selected = false;
+                    count--;
                 } else {
                     fp2.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isFp2_selected = true;
+                    count++;
                 }
             }
         });
@@ -84,9 +97,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isF7_selected) {
                     f7.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isF7_selected = false;
+                    count--;
                 } else {
                     f7.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isF7_selected = true;
+                    count++;
                 }
             }
         });
@@ -99,9 +114,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isF3_selected) {
                     f3.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isF3_selected = false;
+                    count--;
                 } else {
                     f3.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isF3_selected = true;
+                    count++;
                 }
             }
         });
@@ -114,9 +131,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isFz_selected) {
                     fz.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isFz_selected = false;
+                    count--;
                 } else {
                     fz.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isFz_selected = true;
+                    count++;
                 }
             }
         });
@@ -129,9 +148,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isF4_selected) {
                     f4.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isF4_selected = false;
+                    count--;
                 } else {
                     f4.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isF4_selected = true;
+                    count++;
                 }
             }
         });
@@ -144,9 +165,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isF8_selected) {
                     f8.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isF8_selected = false;
+                    count--;
                 } else {
                     f8.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isF8_selected = true;
+                    count++;
                 }
             }
         });
@@ -159,9 +182,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isA1_selected) {
                     A1.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isA1_selected = false;
+                    count--;
                 } else {
                     A1.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isA1_selected = true;
+                    count++;
                 }
             }
         });
@@ -174,9 +199,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isT3_selected) {
                     t3.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isT3_selected = false;
+                    count--;
                 } else {
                     t3.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isT3_selected = true;
+                    count++;
                 }
             }
         });
@@ -189,9 +216,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isC3_selected) {
                     c3.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isC3_selected = false;
+                    count--;
                 } else {
                     c3.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isC3_selected = true;
+                    count++;
                 }
             }
         });
@@ -204,9 +233,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isCz_selected) {
                     cz.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isCz_selected = false;
+                    count--;
                 } else {
                     cz.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isCz_selected = true;
+                    count++;
                 }
             }
         });
@@ -219,9 +250,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isC4_selected) {
                     c4.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isC4_selected = false;
+                    count--;
                 } else {
                     c4.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isC4_selected = true;
+                    count++;
                 }
             }
         });
@@ -234,9 +267,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isT4_selected) {
                     t4.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isT4_selected = false;
+                    count--;
                 } else {
                     t4.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isT4_selected = true;
+                    count++;
                 }
             }
         });
@@ -249,9 +284,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isA2_selected) {
                     A2.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isA2_selected = false;
+                    count--;
                 } else {
                     A2.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isA2_selected = true;
+                    count++;
                 }
             }
         });
@@ -264,9 +301,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isT5_selected) {
                     t5.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isT5_selected = false;
+                    count--;
                 } else {
                     t5.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isT5_selected = true;
+                    count++;
                 }
             }
         });
@@ -279,9 +318,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isP3_selected) {
                     p3.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isP3_selected = false;
+                    count--;
                 } else {
                     p3.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isP3_selected = true;
+                    count++;
                 }
             }
         });
@@ -294,9 +335,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isPz_selected) {
                     pz.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isPz_selected = false;
+                    count--;
                 } else {
                     pz.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isPz_selected = true;
+                    count++;
                 }
             }
         });
@@ -309,9 +352,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isP4_selected) {
                     p4.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isP4_selected = false;
+                    count--;
                 } else {
                     p4.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isP4_selected = true;
+                    count++;
                 }
             }
         });
@@ -325,9 +370,11 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isT6_selected) {
                     t6.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isT6_selected = false;
+                    count--;
                 } else {
                     t6.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isT6_selected = true;
+                    count++;
                 }
             }
         });
@@ -340,36 +387,32 @@ public class ElectrodeSelection extends AppCompatActivity {
                 if(isO1_selected) {
                     O1.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
                     isO1_selected = false;
+                    count--;
                 } else {
                     O1.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
                     isO1_selected = true;
+                    count++;
                 }
             }
         });
 
         final Button O2 = findViewById(R.id.O2);
 
-        O2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isO2_selected) {
-                    O2.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
-                    isO2_selected = false;
-                } else {
-                    O2.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
-                    isO2_selected = true;
-                }
+        O2.setOnClickListener(v -> {
+            if(isO2_selected) {
+                O2.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes));
+                isO2_selected = false;
+                count--;
+            } else {
+                O2.setBackground(getResources().getDrawable(R.drawable.virtual_electrodes_selected));
+                isO2_selected = true;
+                count++;
             }
         });
 
         Button plotStart = findViewById(R.id.submit_electrode);
 
-        plotStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ElectrodeSelection.this.startRealtimePlotting();
-            }
-        });
+        plotStart.setOnClickListener(v -> ElectrodeSelection.this.startRealtimePlotting());
 
     }
 

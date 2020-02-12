@@ -159,7 +159,7 @@ public class BluetoothService {
         setState(BluetoothState.STATE_NONE);
     }
 
-    // Write to the ConnectedThread in an un-synchronized manner
+    // Write to the ConnectedThread in an asynchronous manner
     // out : The bytes to write
     public void write(byte[] out) {
         // Create temporary object
@@ -371,9 +371,10 @@ public class BluetoothService {
         public void write(byte[] buffer) {
             try {
                 mmOutStream.write(buffer);
+                System.out.println(buffer);
                 // Share the sent message back to the UI Activity
-                mHandler.obtainMessage(BluetoothState.MESSAGE_WRITE
-                        , -1, -1, buffer).sendToTarget();
+//                mHandler.obtainMessage(BluetoothState.MESSAGE_WRITE
+//                        , -1, -1, buffer).sendToTarget();
             } catch (IOException e) { }
         }
 

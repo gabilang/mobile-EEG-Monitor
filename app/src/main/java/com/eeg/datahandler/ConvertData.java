@@ -1,10 +1,12 @@
 package com.eeg.datahandler;
 
+import java.util.List;
+
 public class ConvertData {
 
     // Amplifier Data Conversion
     final static float fs = 250.0f; // Sampling frequency (should be taken from user input)
-    final static float amp_V_ref = 3.3f; // Reference voltage for ADC
+    final static float amp_V_ref = 4.5f; // Reference voltage for ADC
     final static float amp_gain = 24; // PG of ADS1299
     final static float scale_fac_uVolts_per_count = (float) (amp_V_ref / (Math.pow(2,23)-1) / amp_gain * 1000000.f);
 
@@ -27,6 +29,19 @@ public class ConvertData {
 
     public static float convertByteToMicroVolts(byte[] byteArray) {
         return scale_fac_uVolts_per_count * interpret24bitAsInt32(byteArray);
+    }
+
+    //Support method to convert float array as a comma separated string
+    public static String convertFloatArrayToString(List<Float>[] input){
+        StringBuilder sb = new StringBuilder();
+        int len = input.length;
+
+        for(int i=0;i<len;i++){
+            sb.append(input[i]);
+            sb.append(", ");
+        }
+
+        return sb.toString();
     }
 
 }

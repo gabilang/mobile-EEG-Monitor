@@ -270,7 +270,8 @@ public class BluetoothSPP {
     public void send(String data, boolean CRLF) {
         if(mChatService.getState() == BluetoothState.STATE_CONNECTED) {
             if(CRLF)
-                data += "\r\n";
+                data += "\r";
+            System.out.println(data);
             mChatService.write(data.getBytes());
         }
     }

@@ -19,22 +19,25 @@
         android:textColor="@color/appDefault"
         android:textSize="12sp" />
 
+
+    <TextView
+        android:id="@+id/electrode_placements"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true"
+        android:text="Select Electrode Locations"
+        android:textColor="@color/appDefault"
+        android:textStyle="bold"
+        android:textSize="24sp" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusable="true"
-        android:focusableInTouchMode="true" >
+        android:focusableInTouchMode="true">
 
-        <TextView
-            android:id="@+id/electrode_placements"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
-            android:layout_centerHorizontal="true"
-            android:text="Select Electrode Locations"
-            android:textColor="@color/appDefault"
-            android:textStyle="bold"
-            android:textSize="24sp" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -380,17 +383,177 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <Button
-            android:id="@+id/submit_electrode"
-            android:layout_width="wrap_content"
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/textDefault"
-            android:text="Continue"
-            android:background = "@drawable/rounded_button" />
+            android:orientation="vertical"
+            android:weightSum="4.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8.0"
+            android:layout_weight="1.0">
+
+            <TextView
+                android:id="@+id/ch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Ch1 :"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:id="@+id/ch1_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text=""
+                android:textColor="@color/green"/>
+
+            <TextView
+                android:id="@+id/ch2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Ch2 :"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:id="@+id/ch2_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text=""
+                android:textColor="@color/green"/>
+
+            <TextView
+                android:id="@+id/ch3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Ch3 :"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:id="@+id/ch3_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text=""
+                android:textColor="@color/green"/>
+
+            <TextView
+                android:id="@+id/ch4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Ch4 :"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:id="@+id/ch4_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text=""
+                android:textColor="@color/green"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="8.0"
+            android:layout_weight="1.0">
+
+            <TextView
+                android:id="@+id/ch5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Ch5 :"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:id="@+id/ch5_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text=""
+                android:textColor="@color/green"/>
+
+            <TextView
+                android:id="@+id/ch6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Ch6 :"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:id="@+id/ch6_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text=""
+                android:textColor="@color/green"/>
+
+            <TextView
+                android:id="@+id/ch7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Ch7 :"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:id="@+id/ch7_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text=""
+                android:textColor="@color/green"/>
+
+            <TextView
+                android:id="@+id/ch8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Ch8 :"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:id="@+id/ch8_set"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text=""
+                android:textColor="@color/green"/>
+
+        </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.0"
+                android:id="@+id/submit_electrode"
+                android:textColor="@color/textDefault"
+                android:text="Continue"
+                android:background="@drawable/rounded_button"/>
+
+        </LinearLayout>
 
     </RelativeLayout>
+
 
 </RelativeLayout>

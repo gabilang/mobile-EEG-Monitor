@@ -2,16 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item android:id="@+id/bt_disconnect"
         android:icon="@drawable/ic_bluetooth_connected"
         android:orderInCategory="100"
         android:title="@string/bt_option_disconnect"
         app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/plot_start"
-        android:icon="@drawable/ic_manual_record"
+    <item android:id="@+id/plot_stop"
+        android:icon="@drawable/ic_stop"
         android:orderInCategory="101"
-        android:title="Plot Start"
+        android:title="Plot Stop"
         app:showAsAction="ifRoom" />
+
 
 </menu>

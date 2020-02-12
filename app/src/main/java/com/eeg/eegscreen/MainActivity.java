@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
         bt = new BluetoothSPP(this);
 
+        System.out.println(bt);
+
         if(!bt.isBluetoothAvailable()) {
             Toast.makeText(getApplicationContext()
                     , "Bluetooth is not available"
@@ -48,19 +49,9 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-        button1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.this.openPresentation();
-            }
-        });
+        button1.setOnClickListener(v -> MainActivity.this.openPresentation());
 
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity.this.openPostRecordVisualization();
-            }
-        });
+        button2.setOnClickListener(v -> MainActivity.this.openPostRecordVisualization());
 
         bt.setBluetoothConnectionListener(new BluetoothSPP.BluetoothConnectionListener() {
             @SuppressLint("SetTextI18n")
@@ -68,14 +59,14 @@ public class MainActivity extends AppCompatActivity {
                 textStatus.setText("Status : Not connect");
                 menu.clear();
                 getMenuInflater().inflate(R.menu.bt_menu, menu);
-                button1.setEnabled(false);
+//                button1.setEnabled(false);
                 deviceName = "None";
             }
 
             @SuppressLint("SetTextI18n")
             public void onDeviceConnectionFailed() {
                 textStatus.setText("Status : Connection failed");
-                button1.setEnabled(false);
+//                button1.setEnabled(false);
             }
 
             @SuppressLint("SetTextI18n")
@@ -84,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 textStatus.setText("Status : Connected to " + name);
                 menu.clear();
                 getMenuInflater().inflate(R.menu.bt_menu_disconnect, menu);
-                button1.setEnabled(true);
+//                button1.setEnabled(true);
             }
         });
     }
