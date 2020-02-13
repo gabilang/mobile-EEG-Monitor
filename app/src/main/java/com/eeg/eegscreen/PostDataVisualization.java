@@ -4,8 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
+
+import com.eeg.filehandler.GetExternalDirectory;
 
 public class PostDataVisualization extends AppCompatActivity {
 
@@ -20,26 +21,11 @@ public class PostDataVisualization extends AppCompatActivity {
         aeeg = findViewById(R.id.aeeg);
         spectogram = findViewById(R.id.spectrogram);
 
-        time_domain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PostDataVisualization.this.openTimeDomainData();
-            }
-        });
+        time_domain.setOnClickListener(v -> PostDataVisualization.this.openTimeDomainData());
 
-        aeeg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PostDataVisualization.this.openAEEG();
-            }
-        });
+        aeeg.setOnClickListener(v -> PostDataVisualization.this.openAEEG());
 
-        spectogram.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PostDataVisualization.this.openSpectrogram();
-            }
-        });
+        spectogram.setOnClickListener(v -> PostDataVisualization.this.openSpectrogram());
     }
 
     private void openSpectrogram() {
@@ -49,7 +35,7 @@ public class PostDataVisualization extends AppCompatActivity {
     }
 
     private void openTimeDomainData() {
-        Intent intent = new Intent(this, TimeDomainViewActivity.class);
+        Intent intent = new Intent(this, GetExternalDirectory.class);
         startActivity(intent);
     }
 }

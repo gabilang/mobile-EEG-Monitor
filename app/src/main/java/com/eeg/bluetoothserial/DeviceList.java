@@ -58,16 +58,12 @@ public class DeviceList extends AppCompatActivity {
         if(strScanDevice == null)
             strScanDevice = "SCAN FOR DEVICES";
         scanButton.setText(strScanDevice);
-        scanButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                doDiscovery();
-            }
-        });
+        scanButton.setOnClickListener(v -> doDiscovery());
 
         // Initialize array adapters. One for already paired devices
         // and one for newly discovered devices
         int layout_text = getIntent().getIntExtra("layout_text", R.layout.device_name);
-        mPairedDevicesArrayAdapter = new ArrayAdapter<String>(this, layout_text);
+        mPairedDevicesArrayAdapter = new ArrayAdapter<>(this, layout_text);
 
         // Find and set up the ListView for paired devices
         ListView pairedListView = findViewById(R.id.list_devices);

@@ -3,10 +3,12 @@ package com.eeg.eegscreen;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -96,30 +98,36 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         setM7Chart();
         setM8Chart();
 
-        try {
-            readDataByColumn();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        readDataByColumn();
+
+//        try {
+//            readDataByColumn();
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
         addDataEntries(eegSession);
     }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private List<List<Float>> readDataByColumn() throws FileNotFoundException {
+    private List<List<Float>> readDataByColumn() {
 
-        File dir = Environment.getExternalStorageDirectory();
-        File inputFile = new File(dir, "EEGFolder/sample_8channel.csv");
+        Intent intent = getIntent();
+        String Dir = intent.getStringExtra("Dir");
+        Log.d("dir", Dir);
+        Bundle extras = getIntent().getExtras();
 
-//        inputStream = getResources().openRawResource(R.raw.sample_8channel);
-        BufferedReader br = new BufferedReader(new FileReader(inputFile));
-//        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, Charset.forName("UTF-8")));
-        // Initialization
-        String line = "";
+        File dir = new File(Dir);
+        String fileName = extras.getString("fileName");
 
-        // Handling exceptions
+        File inputFile = new File(dir, fileName);
+        Log.d("input", String.valueOf(inputFile));
+
         try {
-            // If buffer is not empty
+            BufferedReader br = new BufferedReader(new FileReader(inputFile));
+
+            String line;
+
             while ((line = br.readLine()) != null) {
                 // use comma as separator columns of CSV
 
@@ -134,15 +142,18 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
                         rawValues.add(i, Float.valueOf(cols[i]));
                     }
 
-                    System.out.println(rawValues);
+
                     eegSession.add(rawValues);
                 }
 
             }
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         } catch (IOException e) {
-            // Prints throwable details
             e.printStackTrace();
         }
+
         return eegSession;
     }
 
@@ -169,7 +180,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         m1Chart.setTouchEnabled(true);
         m1Chart.setDragEnabled(true);
         m1Chart.setPinchZoom(true);
-        m1Chart.setDrawGridBackground(false);
+        m1Chart.setDrawGridBackground(true);
         m1Chart.setDrawBorders(true);
         m1Chart.setAutoScaleMinMaxEnabled(true);
 
@@ -177,7 +188,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         YAxis leftAxis1 = m1Chart.getAxisLeft();
         leftAxis1.setEnabled(false);
         YAxis rightAxis1 = m1Chart.getAxisRight();
-        rightAxis1.setEnabled(false);
+        rightAxis1.setEnabled(true);
         XAxis xAxis1 = m1Chart.getXAxis();
         xAxis1.setEnabled(false);
 
@@ -215,7 +226,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         m2Chart.setTouchEnabled(true);
         m2Chart.setDragEnabled(true);
         m2Chart.setPinchZoom(true);
-        m2Chart.setDrawGridBackground(false);
+        m2Chart.setDrawGridBackground(true);
         m2Chart.setDrawBorders(true);
         m2Chart.setAutoScaleMinMaxEnabled(true);
 
@@ -223,7 +234,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         YAxis leftAxis2 = m2Chart.getAxisLeft();
         leftAxis2.setEnabled(false);
         YAxis rightAxis2 = m2Chart.getAxisRight();
-        rightAxis2.setEnabled(false);
+        rightAxis2.setEnabled(true);
         XAxis xAxis2 = m2Chart.getXAxis();
         xAxis2.setEnabled(false);
 
@@ -261,7 +272,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         m3Chart.setTouchEnabled(true);
         m3Chart.setDragEnabled(true);
         m3Chart.setPinchZoom(true);
-        m3Chart.setDrawGridBackground(false);
+        m3Chart.setDrawGridBackground(true);
         m3Chart.setDrawBorders(true);
         m3Chart.setAutoScaleMinMaxEnabled(true);
 
@@ -269,7 +280,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         YAxis leftAxis3 = m3Chart.getAxisLeft();
         leftAxis3.setEnabled(false);
         YAxis rightAxis3 = m3Chart.getAxisRight();
-        rightAxis3.setEnabled(false);
+        rightAxis3.setEnabled(true);
         XAxis xAxis3 = m3Chart.getXAxis();
         xAxis3.setEnabled(false);
 
@@ -307,7 +318,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         m4Chart.setTouchEnabled(true);
         m4Chart.setDragEnabled(true);
         m4Chart.setPinchZoom(true);
-        m4Chart.setDrawGridBackground(false);
+        m4Chart.setDrawGridBackground(true);
         m4Chart.setDrawBorders(true);
         m4Chart.setAutoScaleMinMaxEnabled(true);
 
@@ -315,7 +326,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         YAxis leftAxis4 = m4Chart.getAxisLeft();
         leftAxis4.setEnabled(false);
         YAxis rightAxis4 = m4Chart.getAxisRight();
-        rightAxis4.setEnabled(false);
+        rightAxis4.setEnabled(true);
         XAxis xAxis4 = m4Chart.getXAxis();
         xAxis4.setEnabled(false);
 
@@ -353,7 +364,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         m5Chart.setTouchEnabled(true);
         m5Chart.setDragEnabled(true);
         m5Chart.setPinchZoom(true);
-        m5Chart.setDrawGridBackground(false);
+        m5Chart.setDrawGridBackground(true);
         m5Chart.setDrawBorders(true);
         m5Chart.setAutoScaleMinMaxEnabled(true);
 
@@ -361,7 +372,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         YAxis leftAxis5 = m5Chart.getAxisLeft();
         leftAxis5.setEnabled(false);
         YAxis rightAxis5 = m5Chart.getAxisRight();
-        rightAxis5.setEnabled(false);
+        rightAxis5.setEnabled(true);
         XAxis xAxis5 = m5Chart.getXAxis();
         xAxis5.setEnabled(false);
 
@@ -399,7 +410,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         m6Chart.setTouchEnabled(true);
         m6Chart.setDragEnabled(true);
         m6Chart.setPinchZoom(true);
-        m6Chart.setDrawGridBackground(false);
+        m6Chart.setDrawGridBackground(true);
         m6Chart.setDrawBorders(true);
         m6Chart.setAutoScaleMinMaxEnabled(true);
 
@@ -407,7 +418,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         YAxis leftAxis6 = m6Chart.getAxisLeft();
         leftAxis6.setEnabled(false);
         YAxis rightAxis6 = m6Chart.getAxisRight();
-        rightAxis6.setEnabled(false);
+        rightAxis6.setEnabled(true);
         XAxis xAxis6 = m6Chart.getXAxis();
         xAxis6.setEnabled(false);
 
@@ -445,7 +456,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         m7Chart.setTouchEnabled(true);
         m7Chart.setDragEnabled(true);
         m7Chart.setPinchZoom(true);
-        m7Chart.setDrawGridBackground(false);
+        m7Chart.setDrawGridBackground(true);
         m7Chart.setDrawBorders(true);
         m7Chart.setAutoScaleMinMaxEnabled(true);
 
@@ -453,7 +464,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         YAxis leftAxis7 = m7Chart.getAxisLeft();
         leftAxis7.setEnabled(false);
         YAxis rightAxis7 = m7Chart.getAxisRight();
-        rightAxis7.setEnabled(false);
+        rightAxis7.setEnabled(true);
         XAxis xAxis7 = m7Chart.getXAxis();
         xAxis7.setEnabled(false);
 
@@ -491,7 +502,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         m8Chart.setTouchEnabled(true);
         m8Chart.setDragEnabled(true);
         m8Chart.setPinchZoom(true);
-        m8Chart.setDrawGridBackground(false);
+        m8Chart.setDrawGridBackground(true);
         m8Chart.setDrawBorders(true);
         m8Chart.setAutoScaleMinMaxEnabled(true);
 
@@ -499,7 +510,7 @@ public class TimeDomainViewActivity extends AppCompatActivity implements OnChart
         YAxis leftAxis8 = m8Chart.getAxisLeft();
         leftAxis8.setEnabled(false);
         YAxis rightAxis8 = m8Chart.getAxisRight();
-        rightAxis8.setEnabled(false);
+        rightAxis8.setEnabled(true);
         XAxis xAxis8 = m8Chart.getXAxis();
         xAxis8.setEnabled(false);
 

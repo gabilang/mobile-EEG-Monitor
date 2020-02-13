@@ -14,7 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".aEEGActivity"></activity>
+        <activity android:name="com.eeg.filehandler.GetExternalDirectory"></activity>
+        <activity android:name="com.eeg.filehandler.FileSelectControl" />
+        <activity android:name="com.eeg.filehandler.FileSelectorActivity" />
+        <activity android:name="com.eeg.filehandler.FileList" />
+        <activity android:name=".aEEGActivity" />
         <activity android:name=".TimeDomainViewActivity" />
         <activity android:name=".PostDataVisualization" />
         <activity android:name=".RealtimePlottingActivity" />
