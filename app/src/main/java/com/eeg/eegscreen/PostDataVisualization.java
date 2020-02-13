@@ -10,6 +10,10 @@ import com.eeg.filehandler.GetExternalDirectory;
 
 public class PostDataVisualization extends AppCompatActivity {
 
+    public static final int TIME_DOMAIN = 0;
+    public static final int AEEG = 1;
+    public static final int SPECT = 2;
+
     Button time_domain, aeeg, spectogram;
 
     @Override
@@ -29,13 +33,20 @@ public class PostDataVisualization extends AppCompatActivity {
     }
 
     private void openSpectrogram() {
+        Intent intent = new Intent(this, GetExternalDirectory.class);
+        intent.putExtra("VIEW", SPECT);
+        startActivity(intent);
     }
 
     private void openAEEG() {
+        Intent intent = new Intent(this, GetExternalDirectory.class);
+        intent.putExtra("VIEW", AEEG);
+        startActivity(intent);
     }
 
     private void openTimeDomainData() {
         Intent intent = new Intent(this, GetExternalDirectory.class);
+        intent.putExtra("VIEW", TIME_DOMAIN);
         startActivity(intent);
     }
 }

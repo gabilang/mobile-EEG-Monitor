@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.eeg.filehandler.GetExternalDirectory"></activity>
+        <activity android:name=".SpectrogramActivity"></activity>
+        <activity android:name="com.eeg.aeeg.AEEGWindowActivity" />
+        <activity android:name="com.eeg.filehandler.GetExternalDirectory" />
         <activity android:name="com.eeg.filehandler.FileSelectControl" />
         <activity android:name="com.eeg.filehandler.FileSelectorActivity" />
         <activity android:name="com.eeg.filehandler.FileList" />

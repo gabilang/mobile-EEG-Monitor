@@ -18,16 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eeg.eegscreen.R;
+import com.eeg.eegscreen.SpectrogramActivity;
 import com.eeg.eegscreen.TimeDomainViewActivity;
+import com.eeg.eegscreen.aEEGActivity;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 public class GetExternalDirectory extends AppCompatActivity {
 
@@ -37,10 +33,7 @@ public class GetExternalDirectory extends AppCompatActivity {
     File dir;
     String fileName;
 
-    private int raw_count = 0;
-    private int count = 0;
-
-    List<List<Float>> eegSession = new ArrayList<>();
+    private int VISUAL_SEL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,49 +91,39 @@ public class GetExternalDirectory extends AppCompatActivity {
             fileName = ((TextView) view).getText().toString();
             Log.d("info", fileName);
 
-            openTimeDomain();
+            Intent intent = getIntent();
+            VISUAL_SEL = intent.getIntExtra("VIEW", 0);
+            Log.d("vis :", String.valueOf(VISUAL_SEL));
 
-//            File inputFile = new File(dir, fileName);
-//            Log.d("input", String.valueOf(inputFile));
-//
-//            try {
-//                BufferedReader br = new BufferedReader(new FileReader(inputFile));
-//
-//                String line;
-//
-//                while ((line = br.readLine()) != null) {
-//                    // use comma as separator columns of CSV
-//
-//                    if(raw_count == 0) {
-//                        String[] cols = line.split(",");
-//                        raw_count++;
-//                    } else {
-//                        String[] cols = line.split(",");
-//
-//                        List<Float> rawValues = new ArrayList<>();
-//                        for(int i=0; i<cols.length;i++){
-//                            rawValues.add(i, Float.valueOf(cols[i]));
-//                        }
-//
-//
-//                        eegSession.add(rawValues);
-//                    }
-//
-//                }
-//
-//            } catch (FileNotFoundException e) {
-//                e.printStackTrace();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-            //Log.d("raw :", String.valueOf(eegSession));
-//            Intent intent = new Intent();
-//            intent.putExtra("EEG", (Serializable) eegSession);
+            if(VISUAL_SEL == 0){
+                openTimeDomain();
+            } else if(VISUAL_SEL == 1){
+                openAEEG();
+            } else if (VISUAL_SEL == 2){
+                openSpectrogram();
+            } else {
+                Log.d("state :", "Nothing passed");
+            }
+
         }
     };
 
     private void openTimeDomain(){
         Intent intent = new Intent(this, TimeDomainViewActivity.class);
+        intent.putExtra("Dir", dir.toString());
+        intent.putExtra("fileName", fileName);
+        startActivity(intent);
+    }
+
+    private void openAEEG(){
+        Intent intent = new Intent(this, aEEGActivity.class);
+        intent.putExtra("Dir", dir.toString());
+        intent.putExtra("fileName", fileName);
+        startActivity(intent);
+    }
+
+    private void openSpectrogram(){
+        Intent intent = new Intent(this, SpectrogramActivity.class);
         intent.putExtra("Dir", dir.toString());
         intent.putExtra("fileName", fileName);
         startActivity(intent);
